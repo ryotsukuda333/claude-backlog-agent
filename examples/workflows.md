@@ -517,4 +517,4 @@ Before team meeting:
 
 ---
 
-Need help? [Open an issue](https://github.com/tsukuda/claude-backlog-agent/issues)
+Need help? [Open an issue](https://github.com/ryotsukuda333/claude-backlog-agent/issues)

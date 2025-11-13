@@ -21,7 +21,7 @@ This is the easiest way to install the plugin.
 In Claude Code, run:
 
 ```bash
-/plugin marketplace add tsukuda/claude-backlog-agent
+/plugin marketplace add ryotsukuda333/claude-backlog-agent
 ```
 
 This adds the Claude Backlog Agent marketplace to your available plugin sources.
@@ -50,7 +50,7 @@ For development or customization purposes.
 
 ```bash
 cd ~/projects  # or your preferred directory
-git clone https://github.com/tsukuda/claude-backlog-agent.git
+git clone https://github.com/ryotsukuda333/claude-backlog-agent.git
 cd claude-backlog-agent
 ```
 
@@ -228,4 +228,4 @@ npm install
 
 ---
 
-Need help? [Open an issue](https://github.com/tsukuda/claude-backlog-agent/issues)
+Need help? [Open an issue](https://github.com/ryotsukuda333/claude-backlog-agent/issues)

@@ -1,8 +1,8 @@
 {
   "name": "claude-backlog-agent",
-  "owner": "tsukuda",
+  "owner": "ryotsukuda333",
   "description": "Zero-context Backlog integration plugins for Claude Code",
-  "repository": "https://github.com/tsukuda/claude-backlog-agent",
+  "repository": "https://github.com/ryotsukuda333/claude-backlog-agent",
   "plugins": [
     {
       "name": "backlog",

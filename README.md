@@ -18,7 +18,7 @@ A dynamic MCP agent that provides full Backlog functionality without consuming c
 
 ```bash
 # Add marketplace
-/plugin marketplace add tsukuda/claude-backlog-agent
+/plugin marketplace add ryotsukuda333/claude-backlog-agent
 
 # Install plugin
 /plugin install backlog@claude-backlog-agent
@@ -28,7 +28,7 @@ A dynamic MCP agent that provides full Backlog functionality without consuming c
 
 ```bash
 # Clone repository
-git clone https://github.com/tsukuda/claude-backlog-agent.git
+git clone https://github.com/ryotsukuda333/claude-backlog-agent.git
 cd claude-backlog-agent/scripts
 
 # Install dependencies

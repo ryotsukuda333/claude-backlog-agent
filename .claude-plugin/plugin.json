@@ -1,7 +1,7 @@
 {
   "name": "backlog",
   "description": "Backlog project management integration with zero context consumption",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "tsukuda",
   "repository": "https://github.com/ryotsukuda333/claude-backlog-agent",
   "license": "MIT",

@@ -43,27 +43,27 @@ npm install
 2. Go to **Settings** → **API Settings** → **Register New API Key**
 3. Copy your API key
 
-### 2. Set Environment Variables
+### 2. Configure in Claude Code Settings
 
-Add to your `~/.bashrc`, `~/.zshrc`, or `~/.profile`:
+Add your credentials to `~/.claude/settings.json`:
 
-```bash
-export BACKLOG_DOMAIN="yourspace.backlog.com"
-export BACKLOG_API_KEY="your_api_key_here"
+```json
+{
+  "enabledPlugins": {
+    "backlog@claude-backlog-agent": true
+  },
+  "env": {
+    "BACKLOG_DOMAIN": "yourspace.backlog.com",
+    "BACKLOG_API_KEY": "your_api_key_here"
+  }
+}
 ```
 
-Apply changes:
-```bash
-source ~/.bashrc  # or source ~/.zshrc
-```
+**Note**: Replace `yourspace.backlog.com` with your actual Backlog domain (use `.backlog.jp` if applicable).
 
-### 3. Verify Installation
+### 3. Restart Claude Code
 
-```bash
-# Test connection
-cd claude-backlog-agent/scripts
-node backlog-connector.mjs list
-```
+After updating `settings.json`, restart Claude Code to apply the configuration.
 
 ## 🎯 Usage
 
@@ -83,29 +83,7 @@ Simply ask Claude to interact with Backlog using natural language:
 "List all projects I have access to"
 ```
 
-### Direct Script Usage
-
-```bash
-# List all available tools
-cd scripts
-node backlog-connector.mjs list
-
-# Create an issue
-node backlog-connector.mjs call backlog_add_issue '{
-  "fields": "{ id issueKey summary }",
-  "projectId": 12345,
-  "summary": "Fix authentication bug",
-  "issueTypeId": 1,
-  "priorityId": 3
-}'
-
-# Search issues
-node backlog-connector.mjs call backlog_get_issues '{
-  "fields": "{ id issueKey summary status }",
-  "projectId": [12345],
-  "statusId": [1, 2, 3]
-}'
-```
+The agent handles all API calls automatically through natural language - no need to use scripts directly!
 
 ## 📚 Available Operations
 
@@ -207,15 +185,22 @@ MIT License - see [LICENSE](LICENSE) file for details
 ## 🐛 Troubleshooting
 
 ### "Missing environment variables" error
-Ensure `BACKLOG_DOMAIN` and `BACKLOG_API_KEY` are set and exported in your shell configuration.
+1. Check that `~/.claude/settings.json` has the `env` section with your credentials
+2. Restart Claude Code after updating settings
+3. Verify the credentials are correct (check for typos)
+
+### "Authentication failure" error
+- Verify your Backlog API key is valid and not expired
+- Regenerate API key from Backlog settings if needed
+- Ensure your Backlog domain is correct (`yourspace.backlog.com` or `yourspace.backlog.jp`)
 
 ### "Command not found: npx"
 Install Node.js from [nodejs.org](https://nodejs.org/)
 
 ### "Connection failed"
-- Verify your Backlog API key is valid
 - Check your internet connection
-- Ensure your Backlog domain is correct (e.g., `yourspace.backlog.com`)
+- Verify the Backlog domain format (with or without `https://`)
+- Ensure you have access to the Backlog space
 
 For more help, see [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) or open an issue.
 

@@ -1,25 +1,41 @@
 # Configuration Guide
 
-Advanced configuration options for Claude Backlog Agent.
+Configuration options for Claude Backlog Agent plugin.
 
-## Environment Variables
+## Basic Configuration
 
-### Required Variables
+### Required Settings
+
+Add your Backlog credentials to `~/.claude/settings.json`:
+
+```json
+{
+  "enabledPlugins": {
+    "backlog@claude-backlog-agent": true
+  },
+  "env": {
+    "BACKLOG_DOMAIN": "yourspace.backlog.com",
+    "BACKLOG_API_KEY": "your_api_key_here"
+  }
+}
+```
+
+### Configuration Parameters
 
 #### BACKLOG_DOMAIN
 Your Backlog space domain.
 
-**Format**: `yourspace.backlog.com` or `yourspace.backlog.jp`
-
-**Examples**:
-```bash
-export BACKLOG_DOMAIN="mycompany.backlog.com"
-export BACKLOG_DOMAIN="team.backlog.jp"
-```
+**Format**: `yourspace.backlog.com` or `yourspace.backlog.jp` (without `https://`)
 
 **How to find**:
 - Look at your Backlog URL: `https://[yourspace].backlog.com`
-- Use the part inside brackets plus `.backlog.com`
+- Use the part `[yourspace].backlog.com`
+
+**Examples**:
+```json
+"BACKLOG_DOMAIN": "mycompany.backlog.com"
+"BACKLOG_DOMAIN": "team.backlog.jp"
+```
 
 #### BACKLOG_API_KEY
 Your personal Backlog API key.
@@ -27,312 +43,132 @@ Your personal Backlog API key.
 **How to get**:
 1. Log in to Backlog
 2. Profile → Settings → API Settings
-3. Register New API Key
-4. Copy the generated key
+3. Click "Register New API Key"
+4. Give it a name (e.g., "Claude Code Integration")
+5. Copy the generated key
 
 **Example**:
-```bash
-export BACKLOG_API_KEY="abc123def456ghi789jkl012mno345pqr678stu901vwx234yz"
-```
-
-**Security Notes**:
-- Never commit API keys to version control
-- Use `.env` files for local development (already gitignored)
-- Rotate keys periodically for security
-- Each team member should use their own key
-
-### Optional Variables
-
-#### NODE_OPTIONS
-Configure Node.js memory limits if needed for large operations.
-
-```bash
-export NODE_OPTIONS="--max-old-space-size=4096"
-```
-
-## Configuration Files
-
-### Local Development: .env File
-
-For local testing, create `scripts/.env`:
-
-```bash
-cd scripts
-cp .env.example .env
-# Edit .env with your credentials
-```
-
-**scripts/.env**:
-```bash
-BACKLOG_DOMAIN=yourspace.backlog.com
-BACKLOG_API_KEY=your_api_key_here
-```
-
-**Important**: The `.env` file is gitignored and will not be committed.
-
-### Shell Configuration
-
-For persistent configuration across sessions, add to your shell config:
-
-#### Bash (~/.bashrc)
-```bash
-# Backlog Configuration
-export BACKLOG_DOMAIN="yourspace.backlog.com"
-export BACKLOG_API_KEY="your_api_key_here"
-```
-
-#### Zsh (~/.zshrc)
-```bash
-# Backlog Configuration
-export BACKLOG_DOMAIN="yourspace.backlog.com"
-export BACKLOG_API_KEY="your_api_key_here"
-```
-
-#### Fish (~/.config/fish/config.fish)
-```fish
-# Backlog Configuration
-set -gx BACKLOG_DOMAIN "yourspace.backlog.com"
-set -gx BACKLOG_API_KEY "your_api_key_here"
-```
-
-Apply changes:
-```bash
-source ~/.bashrc  # or source ~/.zshrc, or restart terminal
-```
-
-## Claude Code Configuration
-
-### Plugin Configuration
-
-Claude Code automatically loads the plugin from the marketplace. For advanced configuration, you can override settings in your Claude Code config.
-
-### Agent Preferences
-
-You can configure how Claude interacts with the Backlog agent:
-
 ```json
-{
-  "agentPreferences": {
-    "backlog": {
-      "autoConfirm": false,
-      "verboseLogging": true
-    }
-  }
-}
-```
-
-## Backlog MCP Server Options
-
-The Backlog agent uses `backlog-mcp-server` under the hood. You can pass options via environment variables:
-
-### Enable Specific Toolsets
-
-```bash
-export BACKLOG_TOOLSETS="space,project,issue"
-```
-
-Available toolsets:
-- `space` - Space and user operations
-- `project` - Project management
-- `issue` - Issue operations
-- `wiki` - Wiki management
-- `git` - Git repository operations
-- `notifications` - Notification management
-- `document` - Document operations
-
-### Optimize Response Size
-
-```bash
-export BACKLOG_OPTIMIZE_RESPONSE="true"
-```
-
-Reduces response size for better performance.
-
-### Custom Tool Prefix
-
-```bash
-export BACKLOG_PREFIX="my_backlog_"
-```
-
-Adds a custom prefix to all tool names (e.g., `my_backlog_get_issues`).
-
-## Workspace-Specific Configuration
-
-### Multiple Backlog Spaces
-
-If you work with multiple Backlog spaces, use different profiles:
-
-**~/.bashrc**:
-```bash
-# Function to switch Backlog profiles
-backlog_profile() {
-  case "$1" in
-    work)
-      export BACKLOG_DOMAIN="mycompany.backlog.com"
-      export BACKLOG_API_KEY="work_api_key"
-      ;;
-    personal)
-      export BACKLOG_DOMAIN="personal.backlog.jp"
-      export BACKLOG_API_KEY="personal_api_key"
-      ;;
-    *)
-      echo "Usage: backlog_profile [work|personal]"
-      ;;
-  esac
-}
-```
-
-Usage:
-```bash
-backlog_profile work     # Switch to work profile
-backlog_profile personal # Switch to personal profile
-```
-
-### Project-Specific Configuration
-
-Use `.env` files in project directories:
-
-**project-a/.env**:
-```bash
-BACKLOG_DOMAIN=projecta.backlog.com
-BACKLOG_API_KEY=projecta_api_key
-```
-
-Load before running:
-```bash
-cd project-a
-export $(cat .env | xargs)
-# Now use Claude Code with project-a Backlog
+"BACKLOG_API_KEY": "abc123def456ghi789jkl012mno345pqr"
 ```
 
 ## Security Best Practices
 
 ### API Key Management
 
-1. **Never commit API keys**:
-   - Use `.gitignore` for `.env` files
-   - Use environment variables for production
-   - Use secret management services (AWS Secrets Manager, etc.)
+1. **Never commit API keys to version control**
+   - Settings.json should not be committed if it contains credentials
+   - Consider using `.claude/settings.local.json` for sensitive data
 
-2. **Rotate keys regularly**:
+2. **Rotate keys regularly**
    - Change API keys every 90 days
    - Revoke unused keys immediately
-   - Monitor API key usage in Backlog
+   - Monitor API key usage in Backlog settings
 
-3. **Limit key permissions**:
+3. **Limit key permissions**
    - Use read-only keys when possible
    - Create separate keys for different purposes
    - Revoke keys when team members leave
 
 ### Access Control
 
-Configure Backlog permissions appropriately:
+Configure appropriate Backlog permissions:
 - Limit API access to necessary projects
 - Use role-based access control
-- Monitor API usage logs
+- Monitor API usage logs in Backlog
 
-## Performance Tuning
+## Multiple Backlog Spaces
 
-### Connection Timeout
+If you work with multiple Backlog spaces, you can:
 
-```bash
-export BACKLOG_TIMEOUT="30000"  # 30 seconds
+### Option 1: Switch in Settings
+
+Update `settings.json` when switching spaces and restart Claude Code:
+
+```json
+{
+  "env": {
+    "BACKLOG_DOMAIN": "work-space.backlog.com",
+    "BACKLOG_API_KEY": "work_api_key"
+  }
+}
 ```
 
-### Retry Configuration
+### Option 2: Project-Specific Settings
 
-```bash
-export BACKLOG_MAX_RETRIES="3"
-export BACKLOG_RETRY_DELAY="1000"  # milliseconds
+Use `.claude/settings.local.json` in each project directory:
+
+**project-a/.claude/settings.local.json**:
+```json
+{
+  "env": {
+    "BACKLOG_DOMAIN": "projecta.backlog.com",
+    "BACKLOG_API_KEY": "projecta_api_key"
+  }
+}
 ```
 
-### Rate Limiting
+Claude Code will merge project settings with global settings automatically.
 
-Backlog API has rate limits. The agent handles this automatically, but you can configure:
-
-```bash
-export BACKLOG_RATE_LIMIT="60"  # requests per minute
-```
-
-## Debugging
-
-### Enable Verbose Logging
-
-```bash
-export DEBUG="backlog:*"
-export NODE_ENV="development"
-```
+## Verification
 
 ### Test Configuration
 
-Verify your configuration:
+After configuring and restarting Claude Code, test by asking:
 
-```bash
-cd scripts
-node backlog-connector.mjs list
+```
+"Show me my Backlog user information"
 ```
 
-Expected output: JSON list of available tools
+or
+
+```
+"List all Backlog projects I have access to"
+```
+
+If configured correctly, Claude will retrieve your Backlog data.
 
 ### Common Issues
 
-**Issue**: Empty tool list
-- Check environment variables are set
-- Verify API key has proper permissions
+**Issue**: "Missing environment variables" error
 
-**Issue**: Connection timeout
-- Increase `BACKLOG_TIMEOUT`
-- Check internet connection
-- Verify Backlog service status
+**Solution**:
+1. Verify `env` section exists in `~/.claude/settings.json`
+2. Check for typos in domain and API key
+3. Restart Claude Code after updating settings
 
-**Issue**: Authentication error
+**Issue**: "Authentication failure" error
+
+**Solution**:
 - Verify API key is correct and not expired
-- Check Backlog domain is correct
+- Check domain format (no `https://`, just `space.backlog.com`)
 - Ensure API access is enabled for your account
+- Try regenerating the API key in Backlog settings
 
-## Configuration Validation
+**Issue**: "Not Found Space" error
 
-Create a validation script:
+**Solution**:
+- Verify the space name is correct
+- Check if using `.com` or `.jp` domain
+- Ensure you have access to the Backlog space
 
-**scripts/validate-config.sh**:
-```bash
-#!/bin/bash
+## Performance Considerations
 
-echo "Validating Backlog configuration..."
+The Claude Backlog Agent is designed for zero-context consumption:
+- Agent definition is lightweight (only loads when needed)
+- All API calls are made dynamically
+- No persistent connections or caching
 
-if [ -z "$BACKLOG_DOMAIN" ]; then
-  echo "❌ BACKLOG_DOMAIN is not set"
-  exit 1
-fi
-
-if [ -z "$BACKLOG_API_KEY" ]; then
-  echo "❌ BACKLOG_API_KEY is not set"
-  exit 1
-fi
-
-echo "✅ Environment variables are set"
-
-# Test connection
-node backlog-connector.mjs list > /dev/null 2>&1
-
-if [ $? -eq 0 ]; then
-  echo "✅ Connection to Backlog MCP server successful"
-else
-  echo "❌ Connection failed - check your credentials"
-  exit 1
-fi
-```
-
-Run validation:
-```bash
-chmod +x scripts/validate-config.sh
-./scripts/validate-config.sh
-```
+For optimal performance:
+- Keep API keys valid and don't let them expire
+- Use specific queries rather than broad searches
+- Backlog API rate limits apply (handled automatically)
 
 ## Next Steps
 
 - [Usage Guide](USAGE.md) - Learn how to use the agent
-- [Workflow Examples](../examples/workflows.md) - Common patterns and use cases
+- [Workflow Examples](../examples/workflows.md) - Common use cases and patterns
+- [Troubleshooting](TROUBLESHOOTING.md) - Solutions to common problems
 
 ---
 

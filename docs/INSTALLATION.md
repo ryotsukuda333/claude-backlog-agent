@@ -92,52 +92,37 @@ Restart Claude Code or reload the configuration to activate the plugin.
 
 **Important**: Save this key securely. You won't be able to see it again.
 
-### 2. Configure Environment Variables
+### 2. Configure in Claude Code Settings
 
-#### On macOS/Linux:
+Add your Backlog credentials to `~/.claude/settings.json`:
 
-Add to `~/.bashrc`, `~/.zshrc`, or `~/.profile`:
-
-```bash
-# Backlog Configuration
-export BACKLOG_DOMAIN="yourspace.backlog.com"
-export BACKLOG_API_KEY="your_api_key_here"
+```json
+{
+  "enabledPlugins": {
+    "backlog@claude-backlog-agent": true
+  },
+  "env": {
+    "BACKLOG_DOMAIN": "yourspace.backlog.com",
+    "BACKLOG_API_KEY": "your_api_key_here"
+  }
+}
 ```
 
-Apply changes:
-
-```bash
-source ~/.bashrc  # or source ~/.zshrc
-```
-
-#### On Windows:
-
-##### PowerShell:
-Add to your PowerShell profile:
-
-```powershell
-$env:BACKLOG_DOMAIN="yourspace.backlog.com"
-$env:BACKLOG_API_KEY="your_api_key_here"
-```
-
-##### Command Prompt:
-```cmd
-setx BACKLOG_DOMAIN "yourspace.backlog.com"
-setx BACKLOG_API_KEY "your_api_key_here"
-```
-
-Restart your terminal after setting environment variables.
+**Important Notes**:
+- Replace `yourspace.backlog.com` with your actual Backlog domain
+- Use `.backlog.jp` if your space is hosted in Japan
+- Do not include `https://` in the domain
+- After updating `settings.json`, restart Claude Code to apply changes
 
 ### 3. Verify Configuration
 
-Test that everything is working:
+After restarting Claude Code, test the agent by asking:
 
-```bash
-cd ~/projects/claude-backlog-agent/scripts  # adjust path as needed
-node backlog-connector.mjs list
+```
+"List all Backlog projects I have access to"
 ```
 
-You should see a JSON list of available Backlog tools.
+Claude will use the Backlog agent to retrieve your projects.
 
 ## Troubleshooting
 
@@ -153,15 +138,11 @@ npm --version
 
 ### Issue: "Missing environment variables"
 
-**Solution**: Ensure environment variables are exported correctly.
+**Solution**: Ensure credentials are configured in `~/.claude/settings.json`.
 
-Check if they're set:
-```bash
-echo $BACKLOG_DOMAIN
-echo $BACKLOG_API_KEY
-```
-
-If empty, re-add them to your shell configuration file and restart your terminal.
+1. Check that the `env` section exists in your settings
+2. Verify the credentials are correct (no typos)
+3. Restart Claude Code after updating settings
 
 ### Issue: "API authentication failed"
 

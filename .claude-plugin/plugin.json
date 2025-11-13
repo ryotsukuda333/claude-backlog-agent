@@ -7,5 +7,5 @@
   "license": "MIT",
   "keywords": ["backlog", "project-management", "productivity", "mcp", "zero-context"],
   "category": "productivity",
-  "agents": ["./agents/backlog.md"]
+  "agents": "./agents/"
 }

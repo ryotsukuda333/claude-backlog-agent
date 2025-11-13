@@ -1,6 +1,6 @@
 {
   "name": "claude-backlog-agent-scripts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MCP connector scripts for Claude Backlog Agent",
   "type": "module",
   "main": "backlog-connector.mjs",

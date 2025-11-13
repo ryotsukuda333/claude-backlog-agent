@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "backlog",
-      "source": "./",
+      "source": "./plugins/backlog",
       "description": "Backlog project management agent with zero context consumption"
     }
   ]

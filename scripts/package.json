@@ -1,0 +1,26 @@
+{
+  "name": "claude-backlog-agent-scripts",
+  "version": "1.0.0",
+  "description": "MCP connector scripts for Claude Backlog Agent",
+  "type": "module",
+  "main": "backlog-connector.mjs",
+  "scripts": {
+    "start": "node backlog-connector.mjs",
+    "list": "node backlog-connector.mjs list",
+    "test": "node backlog-connector.mjs --help"
+  },
+  "keywords": [
+    "backlog",
+    "mcp",
+    "claude-code",
+    "project-management"
+  ],
+  "author": "tsukuda",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  }
+}

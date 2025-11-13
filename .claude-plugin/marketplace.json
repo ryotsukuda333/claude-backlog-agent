@@ -1,0 +1,13 @@
+{
+  "name": "claude-backlog-agent",
+  "owner": "tsukuda",
+  "description": "Zero-context Backlog integration plugins for Claude Code",
+  "repository": "https://github.com/tsukuda/claude-backlog-agent",
+  "plugins": [
+    {
+      "name": "backlog",
+      "source": "./",
+      "description": "Backlog project management agent with zero context consumption"
+    }
+  ]
+}
